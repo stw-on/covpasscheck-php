@@ -2,18 +2,21 @@
 
 namespace stwon\CovPassCheck\Trust;
 
-class TrustAnchor
+use DateTime;
+
+class TrustAnchor implements TrustAnchorContract
 {
     public function __construct(
-        private string $certificateType,
-        private string $country,
-        private string $kid,
-        private string $certificate,
-        private string $signature,
-        private string $thumbprint,
-        private \DateTime $timestamp,
+        private string   $certificateType,
+        private string   $country,
+        private string   $kid,
+        private string   $certificate,
+        private string   $signature,
+        private string   $thumbprint,
+        private DateTime $timestamp,
     )
-    {}
+    {
+    }
 
     /**
      * @return string
@@ -64,9 +67,9 @@ class TrustAnchor
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getTimestamp(): \DateTime
+    public function getTimestamp(): DateTime
     {
         return $this->timestamp;
     }

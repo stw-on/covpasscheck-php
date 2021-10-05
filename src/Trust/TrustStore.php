@@ -11,7 +11,7 @@ abstract class TrustStore
     abstract public function fetchTrustAnchors(): array;
 
     /**
-     * @return TrustAnchor[]
+     * @return TrustAnchorContract[]
      */
     public function getTrustAnchors(): array
     {
@@ -29,14 +29,14 @@ abstract class TrustStore
 
     /**
      * @param string $country
-     * @return TrustAnchor[]
+     * @return TrustAnchorContract[]
      */
     public function getTrustAnchorsByCountry(string $country): array
     {
         return array_values(
             array_filter(
                 $this->getTrustAnchors(),
-                static fn(TrustAnchor $anchor) => $anchor->getCountry() === $country,
+                static fn(TrustAnchorContract $anchor) => $anchor->getCountry() === $country,
                 ARRAY_FILTER_USE_BOTH
             )
         );
@@ -44,9 +44,9 @@ abstract class TrustStore
 
     /**
      * @param string $kid
-     * @return TrustAnchor|null
+     * @return TrustAnchorContract|null
      */
-    public function getTrustAnchorByKid(string $kid): ?TrustAnchor
+    public function getTrustAnchorByKid(string $kid): ?TrustAnchorContract
     {
         foreach ($this->getTrustAnchors() as $trustAnchor) {
             if ($trustAnchor->getKid() === $kid) {

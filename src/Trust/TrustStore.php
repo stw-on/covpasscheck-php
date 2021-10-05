@@ -2,8 +2,6 @@
 
 namespace stwon\CovPassCheck\Trust;
 
-use JsonException;
-
 abstract class TrustStore
 {
     private ?array $cachedTrustAnchors = null;

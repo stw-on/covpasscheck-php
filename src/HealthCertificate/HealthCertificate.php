@@ -78,11 +78,11 @@ class HealthCertificate
             $recoveryEntries[] = new RecoveryEntry(
                 $certificateData['r'][0]['tg'],
                 $certificateData['r'][0]['fr'],
-                $certificateData['v'][0]['co'],
-                $certificateData['v'][0]['df'],
-                $certificateData['v'][0]['du'],
-                $certificateData['v'][0]['is'],
-                $certificateData['v'][0]['ci'],
+                $certificateData['r'][0]['co'],
+                $certificateData['r'][0]['df'],
+                $certificateData['r'][0]['du'],
+                $certificateData['r'][0]['is'],
+                $certificateData['r'][0]['ci'],
             );
         }
 

@@ -11,16 +11,16 @@ class VaccinationEntry
      * @throws Exception
      */
     public function __construct(
-        private string           $target,
-        private string           $vaccineType,
-        private string           $vaccineProduct,
-        private string           $vaccineCompany,
-        private int              $dosesReceived,
-        private int              $dosesRequired,
+        private string          $target,
+        private string          $vaccineType,
+        private string          $vaccineProduct,
+        private string          $vaccineCompany,
+        private int             $dosesReceived,
+        private int             $dosesRequired,
         private DateTime|string $vaccinationDate,
-        private string           $locationCountryCode,
-        private string           $certificateIssuer,
-        private string           $certificateId,
+        private string          $locationCountryCode,
+        private string          $certificateIssuer,
+        private string          $certificateId,
     )
     {
         if (is_string($this->vaccinationDate)) {

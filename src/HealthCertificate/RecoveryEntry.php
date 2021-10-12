@@ -43,9 +43,9 @@ class RecoveryEntry
     }
 
     /**
-     * @return DateTime|string
+     * @return DateTime
      */
-    public function getTestDate(): DateTime|string
+    public function getTestDate(): DateTime
     {
         return $this->testDate;
     }
@@ -59,7 +59,7 @@ class RecoveryEntry
     }
 
     /**
-     * @return DateTime|string
+     * @return DateTime
      */
     public function getCertificateValidFrom(): DateTime|string
     {
@@ -67,9 +67,9 @@ class RecoveryEntry
     }
 
     /**
-     * @return DateTime|string
+     * @return DateTime
      */
-    public function getCertificateValidUntil(): DateTime|string
+    public function getCertificateValidUntil(): DateTime
     {
         return $this->certificateValidUntil;
     }

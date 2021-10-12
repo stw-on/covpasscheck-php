@@ -64,9 +64,9 @@ class TestEntry
     }
 
     /**
-     * @return DateTime|string
+     * @return DateTime
      */
-    public function getTestDate(): DateTime|string
+    public function getTestDate(): DateTime
     {
         return $this->testDate;
     }

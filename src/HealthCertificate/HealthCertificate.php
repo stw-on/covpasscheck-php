@@ -3,6 +3,7 @@
 namespace stwon\CovPassCheck\HealthCertificate;
 
 use Carbon\Carbon;
+use DateTime;
 
 class HealthCertificate
 {
@@ -194,5 +195,36 @@ class HealthCertificate
         }
 
         return false;
+    }
+
+    public function getCoverageExpiryDate(string $target, int $types): DateTime
+    {
+        $maxDate = Carbon::createFromTimestamp(0);
+
+        if ($types & self::TYPE_VACCINATION) {
+            foreach ($this->vaccinationEntries as $vaccinationEntry) {
+                if ($vaccinationEntry->getTarget() === $target && $vaccinationEntry->isFullyVaccinated()) {
+                    $maxDate = $maxDate->max($this->getExpiresAt());
+                }
+            }
+        }
+
+        if ($types & self::TYPE_TEST) {
+            foreach ($this->testEntries as $testEntry) {
+                if ($testEntry->getTarget() === $target && $testEntry->isNegative()) {
+                    $maxDate = $maxDate->max($this->getExpiresAt());
+                }
+            }
+        }
+
+        if ($types & self::TYPE_RECOVERY) {
+            foreach ($this->recoveryEntries as $recoveryEntry) {
+                if ($recoveryEntry->getTarget() === $target && !$recoveryEntry->isExpired()) {
+                    $maxDate = $maxDate->max($recoveryEntry->getCertificateValidUntil());
+                }
+            }
+        }
+
+        return $maxDate;
     }
 }

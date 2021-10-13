@@ -7,6 +7,7 @@ use DateTime;
 
 class HealthCertificate
 {
+    public const TYPE_NONE = 0b000;
     public const TYPE_VACCINATION = 0b001;
     public const TYPE_TEST = 0b010;
     public const TYPE_RECOVERY = 0b100;
@@ -58,9 +59,7 @@ class HealthCertificate
                 $certificateData['v'][0]['is'],
                 $certificateData['v'][0]['ci'],
             );
-        }
-
-        if (array_key_exists('t', $certificateData)) {
+        } else if (array_key_exists('t', $certificateData)) {
             $testEntries[] = new TestEntry(
                 $certificateData['t'][0]['tg'],
                 $certificateData['t'][0]['tt'],
@@ -73,9 +72,7 @@ class HealthCertificate
                 $certificateData['t'][0]['is'],
                 $certificateData['t'][0]['ci'],
             );
-        }
-
-        if (array_key_exists('r', $certificateData)) {
+        } else if (array_key_exists('r', $certificateData)) {
             $recoveryEntries[] = new RecoveryEntry(
                 $certificateData['r'][0]['tg'],
                 $certificateData['r'][0]['fr'],
@@ -161,6 +158,28 @@ class HealthCertificate
     public function isExpired(): bool
     {
         return $this->expiresAt !== null && $this->expiresAt->isPast();
+    }
+
+    /**
+     * The 1.0 standard defines that each Health Certificate contains exactly
+     * one type of proof.
+     * @return int
+     */
+    public function getType(): int
+    {
+        if ($this->vaccinationEntries) {
+            return self::TYPE_VACCINATION;
+        }
+
+        if ($this->testEntries) {
+            return self::TYPE_TEST;
+        }
+
+        if ($this->recoveryEntries) {
+            return self::TYPE_RECOVERY;
+        }
+
+        return self::TYPE_NONE;
     }
 
     /**

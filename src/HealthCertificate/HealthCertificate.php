@@ -3,6 +3,7 @@
 namespace stwon\CovPassCheck\HealthCertificate;
 
 use Carbon\Carbon;
+use Composer\Semver\Semver;
 use DateTime;
 
 class HealthCertificate
@@ -38,7 +39,7 @@ class HealthCertificate
         // CWT hcert = -260, claim key 1, see https://github.com/ehn-dcc-development/hcert-spec/blob/main/hcert_spec.md
         $certificateData = $data['-260']['1'];
 
-        if ($certificateData['ver'] !== '1.0.0') {
+        if (Semver::satisfies($certificateData['ver'], '^1.0.0')) {
             throw new \InvalidArgumentException('Invalid hcert version: ' . $certificateData['ver']);
         }
 

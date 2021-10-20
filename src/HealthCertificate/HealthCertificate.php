@@ -167,7 +167,7 @@ class HealthCertificate
      * @param bool $fullyVaccinatedOnly Only return TYPE_VACCINATION if the vaccination series is complete
      * @return int
      */
-    public function getType(bool $fullyVaccinatedOnly): int
+    public function getType(bool $fullyVaccinatedOnly = false): int
     {
         if ($this->vaccinationEntries && (!$fullyVaccinatedOnly || $this->vaccinationEntries[0]->isFullyVaccinated())) {
             return self::TYPE_VACCINATION;

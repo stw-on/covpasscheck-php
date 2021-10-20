@@ -87,8 +87,8 @@ class HealthCertificate
 
         return new HealthCertificate(
             $data['1'],
-            $data['6'] ? Carbon::createFromTimestamp($data['6']) : null,
-            $data['4'] ? Carbon::createFromTimestamp($data['4']) : null,
+            array_key_exists('6', $data) ? Carbon::createFromTimestamp($data['6']) : null,
+            array_key_exists('4', $data) ? Carbon::createFromTimestamp($data['4']) : null,
             new Subject(
                 $certificateData['nam']['gn'],
                 $certificateData['nam']['fn'],
@@ -190,6 +190,10 @@ class HealthCertificate
      */
     public function isCovered(string $target, int $types): bool
     {
+        if ($this->isExpired()) {
+            return false;
+        }
+
         if ($types & self::TYPE_VACCINATION) {
             foreach ($this->vaccinationEntries as $vaccinationEntry) {
                 if ($vaccinationEntry->getTarget() === $target && $vaccinationEntry->isFullyVaccinated()) {

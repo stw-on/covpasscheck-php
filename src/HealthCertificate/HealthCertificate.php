@@ -164,11 +164,12 @@ class HealthCertificate
     /**
      * The 1.0 standard defines that each Health Certificate contains exactly
      * one type of proof.
+     * @param bool $fullyVaccinatedOnly Only return TYPE_VACCINATION if the vaccination series is complete
      * @return int
      */
-    public function getType(): int
+    public function getType(bool $fullyVaccinatedOnly): int
     {
-        if ($this->vaccinationEntries) {
+        if ($this->vaccinationEntries && (!$fullyVaccinatedOnly || $this->vaccinationEntries[0]->isFullyVaccinated())) {
             return self::TYPE_VACCINATION;
         }
 

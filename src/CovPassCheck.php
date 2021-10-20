@@ -95,7 +95,11 @@ class CovPassCheck
         $coseHeaderByteStream = new StringStream($coseHeaderByteArray->getValue());
         $coseHeader = $decoder->decode($coseHeaderByteStream)->getNormalizedData();
 
-        $coseKid = base64_encode($coseMessages->get(1)->getNormalizedData()[4]);
+        $protectedHeader = $decoder->decode(new StringStream($coseMessages->get(0)->getValue()))->getNormalizedData();
+        $unprotectedHeader = $coseMessages->get(1)->getNormalizedData();
+
+        $decodedHeaders = $protectedHeader + $unprotectedHeader;
+        $coseKid = base64_encode($decodedHeaders[4]);
         $cosePayloadByteArray = $coseMessages->get(2);
 
         if (!$cosePayloadByteArray instanceof ByteStringObject) {

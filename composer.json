@@ -17,10 +17,16 @@
   "require": {
     "ext-zlib": "*",
     "ext-openssl": "*",
-    "spomky-labs/cbor-php": "^2.0",
+    "spomky-labs/cbor-php": "dev-byte-string-encode-fix",
     "mhauri/base45": "^0.1.1",
     "web-auth/cose-lib": "^3.3",
     "nesbot/carbon": "^2.53",
     "composer/semver": "^3.2"
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:timoschwarzer/cbor-php.git"
+    }
+  ]
 }

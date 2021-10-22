@@ -13,6 +13,7 @@ use Cose\Algorithm\Signature\ECDSA\ES256;
 use Cose\Algorithm\Signature\RSA\PS256;
 use Cose\Key\Ec2Key;
 use Cose\Key\Key;
+use Cose\Key\RsaKey;
 use Exception;
 use InvalidArgumentException;
 use Mhauri\Base45;
@@ -119,18 +120,26 @@ class CovPassCheck
         $publicKey = openssl_pkey_get_public($cert);
         $publicKeyData = openssl_pkey_get_details($publicKey);
 
-        $key = Key::createFromData([
-            Key::TYPE => Key::TYPE_EC2,
-            Key::KID => $trustAnchor->getKid(),
-            Ec2Key::DATA_CURVE => Ec2Key::CURVE_P256,
-            Ec2Key::DATA_X => $publicKeyData['ec']['x'],
-            Ec2Key::DATA_Y => $publicKeyData['ec']['y'],
-        ]);
-
         $signatureAlgorithmClass = self::ALLOWED_ALGORITHMS[(int)$coseHeader[1]] ?? null;
         if (!$signatureAlgorithmClass) {
             throw new InvalidArgumentException('Invalid signature algorithm requested: ' . $coseHeader[1]);
         }
+
+        // see https://github.com/ehn-dcc-development/hcert-spec/blob/main/hcert_spec.md#332-signature-algorithm
+        $key = $signatureAlgorithmClass === ES256::class
+            ? Key::createFromData([ // ECDSA (ES256), primary algorithm
+                Key::TYPE => Key::TYPE_EC2,
+                Key::KID => $trustAnchor->getKid(),
+                Ec2Key::DATA_CURVE => Ec2Key::CURVE_P256,
+                Ec2Key::DATA_X => $publicKeyData['ec']['x'],
+                Ec2Key::DATA_Y => $publicKeyData['ec']['y'],
+            ])
+            : Key::createFromData([ // RSASSA-PSS (PS256), secondary algorithm
+                Key::TYPE => Key::TYPE_RSA,
+                Key::KID => $trustAnchor->getKid(),
+                RsaKey::DATA_E => $publicKeyData['rsa']['e'],
+                RsaKey::DATA_N => $publicKeyData['rsa']['n'],
+            ]);
 
         $structure = new ListObject();
         $structure->add(new TextStringObject('Signature1'));

@@ -92,7 +92,11 @@ class HealthCertificate
             new Subject(
                 $certificateData['nam']['gn'],
                 $certificateData['nam']['fn'],
-                $certificateData['dob'],
+
+                // This is off-spec, but unfortunately there are certificates that have a time parameter
+                // in the dob field and they are also accepted by CovPassCheck etc. (whyyy?)
+                // https://github.com/Digitaler-Impfnachweis/certification-apis/blob/master/Implementation.md#information-for-all-types-of-certificates
+                explode('T', $certificateData['dob'], 2)[0],
             ),
             $vaccinationEntries,
             $testEntries,

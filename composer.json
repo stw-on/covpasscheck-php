@@ -17,7 +17,7 @@
   "require": {
     "ext-zlib": "*",
     "ext-openssl": "*",
-    "spomky-labs/cbor-php": "dev-byte-string-encode-fix",
+    "spomky-labs/cbor-php": "^2.0.0",
     "mhauri/base45": "^0.1.1",
     "web-auth/cose-lib": "^3.3",
     "composer/semver": "^3.2"

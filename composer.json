@@ -2,7 +2,7 @@
   "name": "stwon/covpasscheck-php",
   "type": "library",
   "license": "MIT",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "autoload": {
     "psr-4": {
       "stwon\\CovPassCheck\\": "src/"

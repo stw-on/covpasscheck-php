@@ -21,7 +21,8 @@
     "spomky-labs/cbor-php": "dev-byte-string-encode-fix",
     "mhauri/base45": "^0.1.1",
     "web-auth/cose-lib": "^3.3",
-    "composer/semver": "^3.2"
+    "composer/semver": "^3.2",
+    "nesbot/carbon": "^2.54"
   },
   "repositories": [
     {
